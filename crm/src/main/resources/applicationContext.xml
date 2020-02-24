@@ -40,6 +40,7 @@
         <property name="basePackage" value="com.bjpowernode.crm.dao" />
     </bean>
 
+    <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/"/>
         <property name="suffix" value=".jsp"/>

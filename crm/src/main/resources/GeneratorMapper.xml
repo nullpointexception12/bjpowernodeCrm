@@ -40,8 +40,8 @@
         </javaClientGenerator>
 
         <!-- 数据库表名及对应的Java模型类名 -->
-        <table tableName="tbl_user"
-               domainObjectName="User"
+        <table tableName="tbl_dic_value"
+               domainObjectName="DicValue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

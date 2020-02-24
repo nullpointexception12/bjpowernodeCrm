@@ -33,7 +33,7 @@
 		});
 		
 		//展示市场活动页面
-		window.open("type/index.jsp","workareaFrame");
+		window.open("${pageContext.request.contextPath}/settings/dictionary/type/index.jsp","workareaFrame");
 		
 	});
 	
