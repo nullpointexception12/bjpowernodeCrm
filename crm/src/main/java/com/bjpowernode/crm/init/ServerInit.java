@@ -20,8 +20,6 @@ public class ServerInit implements ServletContextListener {
         //获取spring上下文容器
         WebApplicationContext springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
         Constants.context = springContext;
-
-        System.out.println("你好");
     }
 
     @Override
