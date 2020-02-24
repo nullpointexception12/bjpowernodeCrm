@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bjpowernode.crm.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.bjpowernode.crm.bean.User" >
+    <id column="id" property="id" jdbcType="CHAR" />
+    <result column="login_act" property="loginAct" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="login_pwd" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="expire_time" property="expireTime" jdbcType="CHAR" />
+    <result column="lock_state" property="lockState" jdbcType="CHAR" />
+    <result column="dept_no" property="deptNo" jdbcType="CHAR" />
+    <result column="allow_ips" property="allowIps" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="CHAR" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="edit_time" property="editTime" jdbcType="CHAR" />
+    <result column="edit_by" property="editBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, login_act, name, login_pwd, email, expire_time, lock_state, dept_no, allow_ips, 
+    create_time, create_by, edit_time, edit_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_user
+    where id = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tbl_user
+    where id = #{id,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bjpowernode.crm.bean.User" >
+    insert into tbl_user (id, login_act, name, 
+      login_pwd, email, expire_time, 
+      lock_state, dept_no, allow_ips, 
+      create_time, create_by, edit_time, 
+      edit_by)
+    values (#{id,jdbcType=CHAR}, #{loginAct,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{loginPwd,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{expireTime,jdbcType=CHAR}, 
+      #{lockState,jdbcType=CHAR}, #{deptNo,jdbcType=CHAR}, #{allowIps,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=CHAR}, #{createBy,jdbcType=VARCHAR}, #{editTime,jdbcType=CHAR}, 
+      #{editBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bjpowernode.crm.bean.User" >
+    insert into tbl_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loginAct != null" >
+        login_act,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="loginPwd != null" >
+        login_pwd,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="expireTime != null" >
+        expire_time,
+      </if>
+      <if test="lockState != null" >
+        lock_state,
+      </if>
+      <if test="deptNo != null" >
+        dept_no,
+      </if>
+      <if test="allowIps != null" >
+        allow_ips,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="editTime != null" >
+        edit_time,
+      </if>
+      <if test="editBy != null" >
+        edit_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="loginAct != null" >
+        #{loginAct,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null" >
+        #{expireTime,jdbcType=CHAR},
+      </if>
+      <if test="lockState != null" >
+        #{lockState,jdbcType=CHAR},
+      </if>
+      <if test="deptNo != null" >
+        #{deptNo,jdbcType=CHAR},
+      </if>
+      <if test="allowIps != null" >
+        #{allowIps,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="editTime != null" >
+        #{editTime,jdbcType=CHAR},
+      </if>
+      <if test="editBy != null" >
+        #{editBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.crm.bean.User" >
+    update tbl_user
+    <set >
+      <if test="loginAct != null" >
+        login_act = #{loginAct,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="expireTime != null" >
+        expire_time = #{expireTime,jdbcType=CHAR},
+      </if>
+      <if test="lockState != null" >
+        lock_state = #{lockState,jdbcType=CHAR},
+      </if>
+      <if test="deptNo != null" >
+        dept_no = #{deptNo,jdbcType=CHAR},
+      </if>
+      <if test="allowIps != null" >
+        allow_ips = #{allowIps,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=CHAR},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="editTime != null" >
+        edit_time = #{editTime,jdbcType=CHAR},
+      </if>
+      <if test="editBy != null" >
+        edit_by = #{editBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bjpowernode.crm.bean.User" >
+    update tbl_user
+    set login_act = #{loginAct,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      login_pwd = #{loginPwd,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      expire_time = #{expireTime,jdbcType=CHAR},
+      lock_state = #{lockState,jdbcType=CHAR},
+      dept_no = #{deptNo,jdbcType=CHAR},
+      allow_ips = #{allowIps,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=CHAR},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      edit_time = #{editTime,jdbcType=CHAR},
+      edit_by = #{editBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=CHAR}
+  </update>
+
+  <select id="selectByActAndPwd" resultType="User">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    tbl_user
+    where login_act = #{arg0} and login_pwd = #{arg1}
+  </select>
+</mapper>

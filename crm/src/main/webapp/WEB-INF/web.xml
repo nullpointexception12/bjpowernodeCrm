@@ -3,9 +3,7 @@
 
   <display-name>bjpowernode-crm</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.do</welcome-file>
   </welcome-file-list>
 
   <!-- 注册SpringMVC的中央调度器 DispatcherServlet -->
@@ -45,6 +43,14 @@
   </filter>
   <filter-mapping>
     <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>loginFilter</filter-name>
+    <filter-class>com.bjpowernode.crm.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>loginFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 

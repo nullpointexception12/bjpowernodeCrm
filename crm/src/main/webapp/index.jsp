@@ -6,7 +6,7 @@
 </head>
 <body>
 	<script type="text/javascript">
-		document.location.href = "login.jsp";
+		document.location.href = "${pageContext.request.contextPath}/login.jsp";
 	</script>
 </body>
 </html>
