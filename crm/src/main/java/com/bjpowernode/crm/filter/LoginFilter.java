@@ -21,7 +21,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        System.out.println("过滤器执行了初始化");
     }
 
     @Override
@@ -29,10 +29,13 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        //获取请求路径
         String servletPath = request.getServletPath();
 
+        //遍历所有不拦截的路径
         for(String url : urlList){
             if(url.equals(servletPath)){
+                //放行
                 filterChain.doFilter(request,response);
                 return;
             }
@@ -50,6 +53,6 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy() {
-
+        System.out.println("过滤器执行销毁");
     }
 }

@@ -7,6 +7,7 @@ import com.bjpowernode.crm.service.UserService;
 import com.bjpowernode.crm.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * create by br
@@ -36,16 +39,23 @@ public class UserController {
             //不存在cookie跳转到登录页
             return "redirect:/login.jsp";
         }else {
-            Cookie cookie = cookies[0];
-            String value = cookie.getValue();
+            String value = null;
+            for(Cookie cookie : cookies){
+                String name = cookie.getName();
+                if("userToken".equals(name)){
+                    value = cookie.getValue();
+                }
+            }
             try {
-                String json = URLDecoder.decode(value, "utf-8");
-                User user = JsonUtil.toObj(json, User.class);
-                ResultObj obj = userService.login(user.getLoginAct(), user.getLoginPwd(),request.getRemoteAddr());
-                if(Constants.code_200.equals(obj.code)){
-                    return "redirect:/workbench/index.jsp";
-                }else {
-                    return "redirect:/login.jsp?msg=" + obj.msg;
+                if(value!=null){
+                    String json = URLDecoder.decode(value, "utf-8");
+                    User user = JsonUtil.toObj(json, User.class);
+                    ResultObj obj = userService.login(user.getLoginAct(), user.getLoginPwd(),request.getRemoteAddr());
+                    if(Constants.code_200.equals(obj.code)){
+                        return "redirect:/workbench/index.jsp";
+                    }else {
+                        return "redirect:/login.jsp?msg=" + obj.msg;
+                    }
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -67,7 +77,7 @@ public class UserController {
                 if(sevenDayNoLogin){  //选择了7天免登录
                     Cookie cookie = new Cookie("userToken", URLEncoder.encode(JsonUtil.toJson(resultObj.data),"utf-8"));
                     System.out.println(URLEncoder.encode(JsonUtil.toJson(resultObj.data),"utf-8"));
-                    cookie.setMaxAge(60 * 60 * 7);
+                    cookie.setMaxAge(60 * 60 * 24 * 7);
                     response.addCookie(cookie);
                 }
 
@@ -86,5 +96,14 @@ public class UserController {
         request.getSession().invalidate();
         return "/login";
     }
+
+   /* @RequestMapping("/getAllUser.do")
+    public String getAllUser(Model model){
+        List<User> userList = userService.getAllUser();
+        model.addAttribute("userList", userList);
+        return "/workbench/activity/index";
+
+    }*/
+
 
 }

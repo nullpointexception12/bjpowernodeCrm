@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -9,21 +10,79 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<base href="<%=basePath%>">
 <meta charset="UTF-8">
 
-<link href="../../jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="../../jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
+<link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
 
-<script type="text/javascript" src="../../jquery/jquery-1.11.1-min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
-
+<script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
+<script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript">
 
 	$(function(){
-		
-		
-		
+
+		//$("#create-startTime").datetimepicker({ format: 'yyyy-mm-dd', timepicker: false });
+		//$("#create-endTime").datetimepicker({ format: 'yyyy-mm-dd', timepicker: false });
+		$(".time").datetimepicker({
+			language:  "zh-CN",
+			format: "yyyy-mm-dd",//显示格式hh:ii:ss
+			minView: "month",//设置只显示到月份
+			initialDate: new Date(),//初始化当前日期
+			autoclose: true,//选中自动关闭
+			todayBtn: true, //显示今日按钮
+			clearBtn : true,
+			pickerPosition: "bottom-left"
+		});
 	});
+
+	//添加市场活动
+	function createActivity() {
+		$.ajax({
+			url : "activity/save.do",
+			data:{
+				owner : $("#create-marketActivityOwner").val(),
+				name : $("#name").val(),
+				start_Time : $("#create-startTime").val(),
+				end_Time : $("#create-endTime").val(),
+				cost : $("#create-cost").val(),
+				describe : $("#create-describe").val()
+			},
+			type : "post",
+			dataType : "json",
+			success : function (result) {
+			//	alert(JSON.stringify(result));
+				if(result.code == "200"){
+					$("#createActivityModal").modal("hide");
+					//调用查询方法
+
+				}else {
+					alert(result.msg);
+				}
+			}
+		});
+
+		//查询市场活动
+		function queryActivity() {
+
+			$.ajax({
+				url:"activity/selectActivity.do",
+				data:{
+					Aname:$("#Aname").val(),
+					owner:$("#owner").val(),
+					startTime:$("#startTime").val(),
+					endTime:$("#endTime").val(),
+					pageNo: $("#2").text(),
+					//pageNum:
+				},
+				type:"post",
+				dataType:"json",
+				success:function (data) {
+
+
+				}
+			});
+		}
+	}
 	
 </script>
 </head>
@@ -41,44 +100,44 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-body">
 				
-					<form class="form-horizontal" role="form">
+					<form  class="form-horizontal" role="form">
 					
 						<div class="form-group">
 							<label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-marketActivityOwner">
-								  <option>zhangsan</option>
-								  <option>lisi</option>
-								  <option>wangwu</option>
+									<c:forEach items="${userList}" var="user">
+										<option id="${user.id}">${user.name}</option>
+									</c:forEach>
 								</select>
 							</div>
-                            <label for="create-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
+                            <label for="name" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-marketActivityName">
+                                <input type="text" name="name" class="form-control" id="name">
                             </div>
 						</div>
-						
+																<%--form-control time col-sm-2 control-label--%>
 						<div class="form-group">
 							<label for="create-startTime" class="col-sm-2 control-label">开始日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="create-startTime">
+								<input type="text" class="form-control time" id="create-startTime" name="start_Time">
 							</div>
 							<label for="create-endTime" class="col-sm-2 control-label">结束日期</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="create-endTime">
+								<input type="text" class="form-control time" id="create-endTime" name="end_Time">
 							</div>
 						</div>
                         <div class="form-group">
 
                             <label for="create-cost" class="col-sm-2 control-label">成本</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-cost">
+                                <input type="text" class="form-control" id="create-cost" name="cost">
                             </div>
                         </div>
 						<div class="form-group">
 							<label for="create-describe" class="col-sm-2 control-label">描述</label>
 							<div class="col-sm-10" style="width: 81%;">
-								<textarea class="form-control" rows="3" id="create-describe"></textarea>
+								<textarea class="form-control" rows="3" id="create-describe" name="describe"></textarea>
 							</div>
 						</div>
 						
@@ -87,7 +146,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+					<button type="button" class="btn btn-primary" onclick="createActivity()">保存</button>
 				</div>
 			</div>
 		</div>
@@ -177,14 +236,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">名称</div>
-				      <input class="form-control" type="text">
+				      <input class="form-control" type="text" id="Aname"/>
 				    </div>
 				  </div>
 				  
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">所有者</div>
-				      <input class="form-control" type="text">
+				      <input class="form-control" type="text" id="owner">
 				    </div>
 				  </div>
 
@@ -202,7 +261,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				    </div>
 				  </div>
 				  
-				  <button type="submit" class="btn btn-default">查询</button>
+				  <button type="button" id="querytn" class="btn btn-default">查询</button>
 				  
 				</form>
 			</div>
@@ -225,21 +284,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<td>结束日期</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr class="active">
-							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">发传单</a></td>
-                            <td>zhangsan</td>
-							<td>2020-10-10</td>
-							<td>2020-10-20</td>
-						</tr>
-                        <tr class="active">
-                            <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">发传单</a></td>
-                            <td>zhangsan</td>
-                            <td>2020-10-10</td>
-                            <td>2020-10-20</td>
-                        </tr>
+					<tbody id="tbodys">
+						<c:forEach items="${activityList}" var="activity">
+							<tr class="active">
+								<td><input type="checkbox" /></td>
+								<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbencch/activity/detail.html';">${activity.name}</a></td>
+								<td>${activity.owner}</td>
+								<td>${activity.startDate}</td>
+								<td>${activity.endDate}</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>
@@ -268,7 +322,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<li class="disabled"><a href="#">首页</a></li>
 							<li class="disabled"><a href="#">上一页</a></li>
 							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
+							<li><a href="#" id="2">2</a></li>
 							<li><a href="#">3</a></li>
 							<li><a href="#">4</a></li>
 							<li><a href="#">5</a></li>

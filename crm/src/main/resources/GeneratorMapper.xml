@@ -6,7 +6,7 @@
 <generatorConfiguration>
 
     <!-- 指定连接数据库的JDBC驱动包所在位置，指定到你本机的完整路径 -->
-    <classPathEntry location="D://maven//repository//mysql//mysql-connector-java//5.1.47//mysql-connector-java-5.1.47.jar"/>
+    <classPathEntry location="E://mysql-connector-java-5.1.43.jar"/>
 
     <!-- 配置table表信息内容体，targetRuntime指定采用MyBatis3的版本 -->
     <context id="tables" targetRuntime="MyBatis3">
@@ -18,7 +18,7 @@
 
         <!-- 配置数据库连接信息 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/test"
+                        connectionURL="jdbc:mysql://localhost:3306/crm"
                         userId="root"
                         password="123456">
         </jdbcConnection>
@@ -40,8 +40,8 @@
         </javaClientGenerator>
 
         <!-- 数据库表名及对应的Java模型类名 -->
-        <table tableName="tbl_dic_value"
-               domainObjectName="DicValue"
+        <table tableName="tbl_activity"
+               domainObjectName="Activity"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"

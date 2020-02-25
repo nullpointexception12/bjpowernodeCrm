@@ -2,6 +2,8 @@ package com.bjpowernode.crm.dao;
 
 import com.bjpowernode.crm.bean.User;
 
+import java.util.List;
+
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
 
@@ -16,4 +18,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     User selectByActAndPwd(String username, String password);
+
+    List<User> getAllUser();
 }

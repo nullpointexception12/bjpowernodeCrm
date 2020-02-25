@@ -193,4 +193,12 @@
     tbl_user
     where login_act = #{arg0} and login_pwd = #{arg1}
   </select>
+
+  <select id="getAllUser" resultType="user">
+    select
+    <include refid="Base_Column_List"/>
+    from
+    tbl_user
+  </select>
+
 </mapper>

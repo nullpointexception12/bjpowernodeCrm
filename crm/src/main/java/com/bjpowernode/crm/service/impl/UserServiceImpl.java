@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public ResultObj login(String username, String password,String ip) {
         ResultObj resultObj = new ResultObj();
+        //获取当前时间
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         User user = userMapper.selectByActAndPwd(username,password);
         if(user == null){
@@ -41,4 +43,10 @@ public class UserServiceImpl implements UserService{
 
         return resultObj;
     }
+
+    @Override
+    public List<User> getAllUser() {
+        return userMapper.getAllUser();
+    }
+
 }
